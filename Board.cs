@@ -99,6 +99,12 @@ namespace Puissance4{
             while(!AddPiece(p.PieceColor,col));
         }
 
+        public void PlayIA(IA ia) {
+            int col = ia.log.ChooseAction(this.grille);
+
+            AddPiece(ia.PieceColor,col);
+        }
+
         private bool AddPiece(int color, int col) {
             int h=hauteur-1;
 

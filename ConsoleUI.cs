@@ -35,6 +35,10 @@ namespace Puissance4 {
             Console.WriteLine("Bravo "+p.name+" a gagné");
         }
 
+        public static void PrintIAWinner(IA p) {
+            Console.WriteLine("Bravo "+p.name+" a gagné");
+        }
+
         public static string GetName(int playerNumber) {
                 string playerName = "";
 

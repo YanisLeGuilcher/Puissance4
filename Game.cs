@@ -1,4 +1,4 @@
-using System.Security.Authentication.ExtendedProtection;
+using System.Threading;
 
 namespace Puissance4 {
     public class Game{
@@ -7,25 +7,40 @@ namespace Puissance4 {
         public Player p2{get; private set;}
         public Board b{get; private set;}
 
+        public IA bob{get; private set;}
+        public IA Joshua{get; private set;}
+
+        public IA CurrentIA{get; private set;}
+
         public Player CurrentPlayer{get; private set;}
 
 
         public Game(int mode) {
+
             this.mode = mode;
-            this.p1 = new Player(ConsoleUI.GetName(1), 1);
-            this.p2 = new Player(ConsoleUI.GetName(2), 2);
+            //this.p1 = new Player(ConsoleUI.GetName(1), 1);
+            //this.p2 = new Player(ConsoleUI.GetName(2), 2);
             this.b = new Board();
 
-            this.CurrentPlayer = this.p2;
+            this.bob = new IA("BOB",1);
+            this.Joshua = new IA("Joshua",2);
 
-            this.b.PrintBoard();
-            while(!(b.GameOver(this.CurrentPlayer.PieceColor))) {
-                ChangePlayer();
-                this.b.Play(this.CurrentPlayer);
-                Console.Clear();
-                this.b.PrintBoard(); 
+            this.CurrentIA = this.bob;
+
+            //this.CurrentPlayer = this.p2;
+            for(int i=0;i<100;i++) {
+                this.b = new Board();
+                this.b.PrintBoard();
+                while(!(b.GameOver(this.CurrentIA.PieceColor))) {
+                    ChangeIA();
+                    this.b.PlayIA(this.CurrentIA);
+                    Console.Clear();
+                    this.b.PrintBoard();
+                    Thread.Sleep(100);
+                }
+                ConsoleUI.PrintIAWinner(CurrentIA);
             }
-            ConsoleUI.PrintWinner(CurrentPlayer);
+            
         }
 
         private void ChangePlayer(){
@@ -34,6 +49,15 @@ namespace Puissance4 {
             }
             else {
                 CurrentPlayer = this.p1;
+            }
+        }
+
+        private void ChangeIA(){
+            if(CurrentIA == bob) {
+                CurrentIA = this.Joshua;
+            }
+            else {
+                CurrentIA = this.bob;
             }
         }
     }
